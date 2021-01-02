@@ -24,6 +24,16 @@
     "lit-element": "^2.2.1"
   },
   "devDependencies": {
+    "@internetarchive/icon-audio": "^1.1.3",
+    "@internetarchive/icon-donate": "^1.1.3",
+    "@internetarchive/icon-ia-logo": "^1.1.3",
+    "@internetarchive/icon-images": "^1.1.3",
+    "@internetarchive/icon-software": "^1.1.3",
+    "@internetarchive/icon-texts": "^1.1.3",
+    "@internetarchive/icon-upload": "^1.1.3",
+    "@internetarchive/icon-user": "^1.1.3",
+    "@internetarchive/icon-video": "^1.1.3",
+    "@internetarchive/icon-web": "^1.1.3",
     "@open-wc/eslint-config": "^4.2.0",
     "@open-wc/testing": "^2.0.0",
     "@types/mocha": "^8.2.0",

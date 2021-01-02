@@ -14,7 +14,11 @@
     "sourceMap": true,
     "inlineSources": true,
     "rootDir": "./",
-    "declaration": true
+    "declaration": true,
+    "types": [
+      "resize-observer-browser",
+      "mocha"
+    ],
   },
   "include": ["**/*.ts"]
 }

@@ -64,6 +64,16 @@ export class SharedResizeObserver implements SharedResizeObserverInterface {
 
   private resizeObserver: ResizeObserver;
 
+/**
+ * A map of all of the observed elements and their resize handlers
+ *
+ * @private
+ * @type {Map<
+ *     Element,
+ *     Set<SharedResizeObserverResizeHandlerInterface>
+ *   >}
+ * @memberof SharedResizeObserver
+ */
   private resizeHandlers: Map<
     Element,
     Set<SharedResizeObserverResizeHandlerInterface>

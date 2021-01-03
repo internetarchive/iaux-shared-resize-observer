@@ -88,11 +88,9 @@ export class ResponsiveNav
     const contentRect = entry.contentRect;
     const availableWidth = contentRect.width - this.menuGap;
     const fullTextWidth =
-      this.mainMenu.estimateFullWidth +
-      this.rightMenu.estimateFullWidth;
+      this.mainMenu.estimateFullWidth + this.rightMenu.estimateFullWidth;
     const leftIconRightText =
-      this.mainMenu.estimateIconOnlyWidth +
-      this.rightMenu.estimateFullWidth;
+      this.mainMenu.estimateIconOnlyWidth + this.rightMenu.estimateFullWidth;
     const iconOnlyWidth =
       this.mainMenu.estimateIconOnlyWidth +
       this.rightMenu.estimateIconOnlyWidth;
@@ -252,9 +250,9 @@ export class ResponsiveNav
       >
         <div
           class="left-menu ${this.leftMenuMode ===
-        ResponsiveNavLeftMenuMode.Hamburger
-        ? 'hamburger'
-        : 'full'}"
+          ResponsiveNavLeftMenuMode.Hamburger
+            ? 'hamburger'
+            : 'full'}"
         >
           ${this.hamburgerMenuTemplate} ${this.mainLeftMenuTemplate}
         </div>

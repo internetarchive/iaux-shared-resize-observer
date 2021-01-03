@@ -40,7 +40,7 @@ export class ResponsiveNavMenu extends LitElement {
     return html`
       <ul>
         ${this.menuOptions.map(
-      option => html`
+          option => html`
             <li>
               <responsive-nav-item
                 .mode=${this.itemMode}
@@ -50,7 +50,7 @@ export class ResponsiveNavMenu extends LitElement {
               </responsive-nav-item>
             </li>
           `
-    )}
+        )}
       </ul>
     `;
   }
@@ -70,7 +70,7 @@ export class ResponsiveNavMenu extends LitElement {
     const totalMenuItems = this.navItems.length;
     return (
       (this.navItems[0].estimatedIconOnlyWidth + this.navItemSpacing + 2) *
-      totalMenuItems -
+        totalMenuItems -
       this.navItemSpacing
     );
   }

@@ -98,7 +98,7 @@ describe('Shared Resize Observer', () => {
     let handleResizeCallCount = 0;
     class MockHandler implements SharedResizeObserverResizeHandlerInterface {
       handleResize(entry: ResizeObserverEntry): void {
-        console.log('removeHandler resize', entry.contentRect)
+        console.log('removeHandler resize', entry.contentRect);
         handleResizeCallCount++;
       }
     }
@@ -113,16 +113,16 @@ describe('Shared Resize Observer', () => {
     await promisedSleep(100);
     expect(handleResizeCallCount).to.equal(1);
     // trigger a handleResize event
-    el.style.width = "50px";
+    el.style.width = '50px';
     await promisedSleep(100);
     expect(handleResizeCallCount).to.equal(2);
 
     resizeObserver.removeObserver({
       handler: mockHandler,
-      target: el
+      target: el,
     });
     // trigger another handleResize, but this one won't trigger a resize event
-    el.style.width = "75px";
+    el.style.width = '75px';
     await promisedSleep(100);
     expect(handleResizeCallCount).to.equal(2);
   });
@@ -154,7 +154,7 @@ describe('Shared Resize Observer', () => {
     await promisedSleep(100);
     expect(handleResizeCallCount).to.equal(1);
 
-    el.style.width = "50px";
+    el.style.width = '50px';
     await promisedSleep(100);
     expect(handleResizeCallCount).to.equal(2);
   });

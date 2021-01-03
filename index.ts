@@ -1,5 +1,5 @@
 export {
   SharedResizeObserver,
   SharedResizeObserverInterface,
-  SharedResizeObserverResizeHandlerInterface
+  SharedResizeObserverResizeHandlerInterface,
 } from './src/shared-resize-observer.js';

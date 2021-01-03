@@ -3,12 +3,13 @@ import {
   CSSResult,
   customElement,
   html,
+  internalProperty,
   LitElement,
   query,
   TemplateResult,
 } from 'lit-element';
-import './responsive-nav';
-import { ResponsiveNav } from './responsive-nav';
+import './responsive-nav/responsive-nav';
+import { ResponsiveNav } from './responsive-nav/responsive-nav';
 import {
   SharedResizeObserver,
   SharedResizeObserverInterface,
@@ -18,6 +19,9 @@ import {
 export class AppRoot extends LitElement {
   @query('#show-borders-check') showBordersCheck!: HTMLInputElement;
   @query('#show-extra-nav') showNavCheck!: HTMLInputElement;
+  @query('#constrained-width-check') constrainedWidthCheck!: HTMLInputElement;
+  @query('#constrained-width-slider') constrainedWidthSlider!: HTMLInputElement;
+  @query('#constrained-width-value') constrainedWidthValue!: HTMLSpanElement;
   @query('#item-spacing-slider') itemSpacingSlider!: HTMLInputElement;
   @query('#item-spacing-value') itemSpacingValue!: HTMLSpanElement;
   @query('#font-size-slider') fontSizeSlider!: HTMLInputElement;
@@ -27,13 +31,10 @@ export class AppRoot extends LitElement {
   @query('#menu-gap-slider') menuGapSlider!: HTMLInputElement;
   @query('#menu-gap-value') menuGapValue!: HTMLSpanElement;
 
-  @query('#full-width') fullWidthNav!: ResponsiveNav;
-  @query('#med-width') medWidthNav!: ResponsiveNav;
-  @query('#compact-width') compactWidthNav!: ResponsiveNav;
+  @query('responsive-nav') nav!: ResponsiveNav;
 
-  private get navs(): ResponsiveNav[] {
-    return [this.fullWidthNav, this.medWidthNav, this.compactWidthNav];
-  }
+  @internalProperty()
+  private constrainNavWidth = false;
 
   private resizeObserver: SharedResizeObserverInterface = new SharedResizeObserver();
 
@@ -51,57 +52,71 @@ export class AppRoot extends LitElement {
 
   private changeItemSpacing(): void {
     const itemSpacing = `${this.itemSpacingSlider.value}px`;
-    this.navs.forEach(nav => {
-      nav.navItemSpacing = parseFloat(this.itemSpacingSlider.value);
-    });
+    this.nav.navItemSpacing = parseFloat(this.itemSpacingSlider.value);
     this.itemSpacingValue.innerHTML = itemSpacing;
   }
 
   private changeMenuGap(): void {
-    this.navs.forEach(nav => {
-      nav.menuGap = parseFloat(this.menuGapSlider.value);
-    });
+    this.nav.menuGap = parseFloat(this.menuGapSlider.value);
     this.menuGapValue.innerHTML = `${this.menuGapSlider.value}px`;
   }
 
   private toggleNavOutlines(): void {
-    this.navs.forEach(nav => {
-      nav.showDevOutline = this.showBordersCheck.checked;
-    });
+    this.nav.showDevOutline = this.showBordersCheck.checked;
   }
 
   private toggleExtraNavVisibility(): void {
-    this.navs.forEach(nav => {
-      nav.showHiddenItems = this.showNavCheck.checked;
-    });
+    this.nav.showHiddenItems = this.showNavCheck.checked;
+  }
+
+  private toggleFullWidth(): void {
+    this.constrainNavWidth = this.constrainedWidthCheck.checked;
+  }
+
+  private changeConstrainedSize(): void {
+    const constrainedWidth = `${this.constrainedWidthSlider.value}rem`;
+    this.style.setProperty(
+      '--responsive-nav-constrained-width',
+      constrainedWidth
+    );
+    this.constrainedWidthValue.innerHTML = constrainedWidth;
   }
 
   render(): TemplateResult {
     return html`
-      <div class="example full">
-        <responsive-nav id="full-width" .resizeObserver=${this.resizeObserver}>
-        </responsive-nav>
-        <div class="description">Full Width</div>
-      </div>
-      <div class="example restricted-icon">
-        <responsive-nav id="med-width" .resizeObserver=${this.resizeObserver}>
-        </responsive-nav>
-        <div class="description">Max Width 60rem</div>
-      </div>
-      <div class="example restricted-hamburger">
+      <header>
         <responsive-nav
-          id="compact-width"
+          class="${this.constrainNavWidth ? 'constrain' : ''}"
+          id="full-width"
           .resizeObserver=${this.resizeObserver}
         >
         </responsive-nav>
-        <div class="description">Max Width 38rem</div>
-      </div>
-      <div class="description">
-        Three examples of the same responsive nav component using the same SharedResizeObserver.
-      </div>
+      </header>
+
       <div class="dev">
         <fieldset>
           <legend>Dev Tools</legend>
+          <div class="dev-option">
+            <label for="constrained-width-check">Constrain Width</label>
+            <input
+              type="checkbox"
+              id="constrained-width-check"
+              @input=${this.toggleFullWidth}
+            />
+          </div>
+          <div class="dev-option">
+            <label for="constrained-width-slider">Constrained Size</label>
+            <input
+              type="range"
+              min="30"
+              max="150"
+              step="0.1"
+              value="60"
+              id="constrained-width-slider"
+              @input=${this.changeConstrainedSize}
+            />
+            <span id="constrained-width-value">60rem</span>
+          </div>
           <div class="dev-option">
             <label for="show-borders-check">Show Borders</label>
             <input
@@ -176,9 +191,20 @@ export class AppRoot extends LitElement {
   }
 
   static get styles(): CSSResult {
+    const constrainedWidth = css`var(--responsive-nav-constrained-width, 60rem)`;
+
     return css`
-      .example {
+      header {
+        background-color: #333;
         margin-bottom: 2rem;
+      }
+
+      responsive-nav {
+        margin: auto;
+      }
+
+      responsive-nav.constrain {
+        max-width: ${constrainedWidth};
       }
 
       .restricted-icon {

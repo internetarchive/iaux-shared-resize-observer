@@ -8,16 +8,12 @@ import {
   customElement,
   query,
 } from 'lit-element';
-
-export enum ResponsiveItemMode {
-  IconText = 'icontext',
-  IconOnly = 'icononly',
-}
+import { ResponsiveNavMenuMode } from './models/menu-mode';
 
 @customElement('responsive-nav-item')
 export class ResponsiveNavItem extends LitElement {
-  @property({ type: String }) mode: ResponsiveItemMode =
-    ResponsiveItemMode.IconText;
+  @property({ type: String }) mode: ResponsiveNavMenuMode =
+    ResponsiveNavMenuMode.IconText;
 
   @property({ type: Object }) icon?: TemplateResult;
 
@@ -91,7 +87,7 @@ export class ResponsiveNavItem extends LitElement {
         fill: ${hoverCss};
       }
 
-      .container.icononly .text {
+      .container.icon-only .text {
         display: none;
       }
 

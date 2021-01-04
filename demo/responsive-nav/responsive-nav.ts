@@ -27,10 +27,9 @@ import hamburgerIcon from '../icons/hamburger';
 
 import './nav-item';
 import './nav-menu';
-import { ResponsiveNavItem } from './nav-item';
 import {
   SharedResizeObserverInterface,
-  SharedResizeObserverResizeHandlerInterface,
+  SharedResizeObserverResizeHandler,
 } from '../../index';
 import { nothing } from 'lit-html';
 import { ResponsiveNavMenuOption } from './models/menu-option';
@@ -46,7 +45,7 @@ export enum ResponsiveNavLeftMenuMode {
 @customElement('responsive-nav')
 export class ResponsiveNav
   extends LitElement
-  implements SharedResizeObserverResizeHandlerInterface {
+  implements SharedResizeObserverResizeHandler {
   @property({ type: Number }) menuGap = 40;
 
   @property({ type: Boolean }) showHiddenItems = false;

@@ -13,7 +13,7 @@ import { ResponsiveNav } from './responsive-nav/responsive-nav';
 import {
   SharedResizeObserver,
   SharedResizeObserverInterface,
-  SharedResizeObserverResizeHandlerInterface,
+  SharedResizeObserverResizeHandler,
 } from '../src/shared-resize-observer';
 import './responsive-device';
 import { Device } from './responsive-device';
@@ -24,7 +24,7 @@ import './dev/dev-slider';
 @customElement('app-root')
 export class AppRoot
   extends LitElement
-  implements SharedResizeObserverResizeHandlerInterface {
+  implements SharedResizeObserverResizeHandler {
   @query('responsive-nav') nav!: ResponsiveNav;
 
   @internalProperty()

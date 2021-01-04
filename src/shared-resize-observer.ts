@@ -1,4 +1,7 @@
-export interface SharedResizeObserverResizeHandlerInterface {
+/**
+ * An interface for objects to handle resize events for a target
+ */
+export interface SharedResizeObserverResizeHandler {
   handleResize(entry: ResizeObserverEntry): void;
 }
 
@@ -9,7 +12,7 @@ export interface SharedResizeObserverInterface {
    * @param options
    */
   addObserver(options: {
-    handler: SharedResizeObserverResizeHandlerInterface;
+    handler: SharedResizeObserverResizeHandler;
     target: Element;
     options?: ResizeObserverOptions | undefined;
   }): void;
@@ -20,7 +23,7 @@ export interface SharedResizeObserverInterface {
    * @param options
    */
   removeObserver(options: {
-    handler: SharedResizeObserverResizeHandlerInterface;
+    handler: SharedResizeObserverResizeHandler;
     target: Element;
   }): void;
 }
@@ -37,7 +40,7 @@ export interface SharedResizeObserverInterface {
 export class SharedResizeObserver implements SharedResizeObserverInterface {
   /** @inheritdoc */
   addObserver(options: {
-    handler: SharedResizeObserverResizeHandlerInterface;
+    handler: SharedResizeObserverResizeHandler;
     target: Element;
     options?: ResizeObserverOptions | undefined;
   }): void {
@@ -50,7 +53,7 @@ export class SharedResizeObserver implements SharedResizeObserverInterface {
 
   /** @inheritdoc */
   removeObserver(options: {
-    handler: SharedResizeObserverResizeHandlerInterface;
+    handler: SharedResizeObserverResizeHandler;
     target: Element;
   }): void {
     const handlers = this.resizeHandlers.get(options.target);
@@ -70,13 +73,13 @@ export class SharedResizeObserver implements SharedResizeObserverInterface {
    * @private
    * @type {Map<
    *     Element,
-   *     Set<SharedResizeObserverResizeHandlerInterface>
+   *     Set<SharedResizeObserverResizeHandler>
    *   >}
    * @memberof SharedResizeObserver
    */
   private resizeHandlers: Map<
     Element,
-    Set<SharedResizeObserverResizeHandlerInterface>
+    Set<SharedResizeObserverResizeHandler>
   > = new Map();
 
   constructor() {

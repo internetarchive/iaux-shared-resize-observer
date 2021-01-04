@@ -17,7 +17,6 @@ import {
 } from '../src/shared-resize-observer';
 import './responsive-device';
 import { Device } from './responsive-device';
-import { nothing } from 'lit-html';
 import './dev/dev-checkbox';
 import './dev/dev-slider';
 
@@ -32,9 +31,6 @@ export class AppRoot
 
   @internalProperty()
   private showDevOutline = false;
-
-  @internalProperty()
-  private showDeviceIcon = false;
 
   private resizeObserver: SharedResizeObserverInterface = new SharedResizeObserver();
 
@@ -60,6 +56,8 @@ export class AppRoot
 
   render(): TemplateResult {
     return html`
+      <h1>SharedResizeObserver Demo</h1>
+
       <div
         class="constrained-size-marker ${this.showDevOutline ? '' : 'hidden'}"
       ></div>
@@ -72,19 +70,23 @@ export class AppRoot
         </responsive-nav>
       </header>
 
+      <div>
+        <responsive-device .device=${this.device}></responsive-device>
+      </div>
+
       <div class="dev">
         <fieldset>
           <legend>Dev Tools</legend>
           <div class="dev-option">
             <dev-slider
               label="Max Width"
-              min="30"
-              max="250"
-              step="0.1"
-              value="250"
-              unit="rem"
+              min="300"
+              max="1600"
+              step="1"
+              value="1600"
+              unit="px"
               @valueChanged=${(e: CustomEvent): void => {
-        const constrainedWidth = `${e.detail.value}rem`;
+      const constrainedWidth = `${e.detail.value}px`;
         this.style.setProperty(
           '--responsive-nav-constrained-width',
           constrainedWidth
@@ -162,24 +164,8 @@ export class AppRoot
       }}
             ></dev-slider>
           </div>
-          <div class="dev-option">
-            <dev-checkbox
-              label="Show Device Icon"
-              @valueChanged=${(e: CustomEvent): void => {
-        this.showDeviceIcon = e.detail.checked;
-      }}
-            ></dev-checkbox>
-          </div>
         </fieldset>
       </div>
-
-      ${this.showDeviceIcon
-        ? html`
-            <div>
-              <responsive-device .device=${this.device}></responsive-device>
-            </div>
-          `
-        : nothing}
     `;
   }
 
@@ -187,9 +173,20 @@ export class AppRoot
     const constrainedWidth = css`var(--responsive-nav-constrained-width, 250rem)`;
 
     return css`
+      h1 {
+        text-align: center;
+      }
+
       header {
         background-color: #333;
         margin-bottom: 2rem;
+      }
+
+      responsive-column {
+        height: 100px;
+        display: block;
+        max-width: ${constrainedWidth};
+        margin: auto;
       }
 
       .constrained-size-marker {
@@ -203,7 +200,7 @@ export class AppRoot
         z-index: -1;
       }
 
-      .constrained-size-marker.hidden {
+      .hidden {
         display: none;
       }
 
@@ -216,6 +213,7 @@ export class AppRoot
         width: 10rem;
         height: 10rem;
         margin: auto;
+        margin-bottom: 2rem;
       }
 
       .restricted-icon {

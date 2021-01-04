@@ -13,10 +13,16 @@ import { ResponsiveNav } from './responsive-nav/responsive-nav';
 import {
   SharedResizeObserver,
   SharedResizeObserverInterface,
+  SharedResizeObserverResizeHandlerInterface,
 } from '../src/shared-resize-observer';
+import './responsive-device';
+import { Device } from './responsive-device';
+import { nothing } from 'lit-html';
 
 @customElement('app-root')
-export class AppRoot extends LitElement {
+export class AppRoot
+  extends LitElement
+  implements SharedResizeObserverResizeHandlerInterface {
   @query('#show-borders-check') showBordersCheck!: HTMLInputElement;
   @query('#show-extra-nav') showNavCheck!: HTMLInputElement;
   @query('#constrained-width-check') constrainedWidthCheck!: HTMLInputElement;
@@ -34,7 +40,13 @@ export class AppRoot extends LitElement {
   @query('responsive-nav') nav!: ResponsiveNav;
 
   @internalProperty()
-  private constrainNavWidth = false;
+  private device: Device = Device.macBook;
+
+  @internalProperty()
+  private showDevOutline = false;
+
+  @internalProperty()
+  private showDeviceIcon = false;
 
   private resizeObserver: SharedResizeObserverInterface = new SharedResizeObserver();
 
@@ -62,15 +74,11 @@ export class AppRoot extends LitElement {
   }
 
   private toggleNavOutlines(): void {
-    this.nav.showDevOutline = this.showBordersCheck.checked;
+    this.showDevOutline = this.showBordersCheck.checked;
   }
 
   private toggleExtraNavVisibility(): void {
     this.nav.showHiddenItems = this.showNavCheck.checked;
-  }
-
-  private toggleFullWidth(): void {
-    this.constrainNavWidth = this.constrainedWidthCheck.checked;
   }
 
   private changeConstrainedSize(): void {
@@ -82,12 +90,35 @@ export class AppRoot extends LitElement {
     this.constrainedWidthValue.innerHTML = constrainedWidth;
   }
 
+  handleResize(entry: ResizeObserverEntry): void {
+    const width = entry.contentRect.width;
+    let device: Device = Device.iPad;
+    if (width < 500) {
+      device = Device.iPhone;
+    } else if (width < 800) {
+      device = Device.iPad;
+    } else {
+      device = Device.macBook;
+    }
+    this.device = device;
+  }
+
+  firstUpdated(): void {
+    this.resizeObserver.addObserver({
+      handler: this,
+      target: this.nav,
+    });
+  }
+
   render(): TemplateResult {
     return html`
+      <div
+        class="constrained-size-marker ${this.showDevOutline ? '' : 'hidden'}"
+      ></div>
       <header>
         <responsive-nav
-          class="${this.constrainNavWidth ? 'constrain' : ''}"
           id="full-width"
+          ?showDevOutline=${this.showDevOutline}
           .resizeObserver=${this.resizeObserver}
         >
         </responsive-nav>
@@ -97,25 +128,17 @@ export class AppRoot extends LitElement {
         <fieldset>
           <legend>Dev Tools</legend>
           <div class="dev-option">
-            <label for="constrained-width-check">Constrain Width</label>
-            <input
-              type="checkbox"
-              id="constrained-width-check"
-              @input=${this.toggleFullWidth}
-            />
-          </div>
-          <div class="dev-option">
             <label for="constrained-width-slider">Constrained Size</label>
             <input
               type="range"
               min="30"
-              max="150"
+              max="250"
               step="0.1"
-              value="60"
+              value="250"
               id="constrained-width-slider"
               @input=${this.changeConstrainedSize}
             />
-            <span id="constrained-width-value">60rem</span>
+            <span id="constrained-width-value">250rem</span>
           </div>
           <div class="dev-option">
             <label for="show-borders-check">Show Borders</label>
@@ -131,6 +154,16 @@ export class AppRoot extends LitElement {
               type="checkbox"
               id="show-extra-nav"
               @input=${this.toggleExtraNavVisibility}
+            />
+          </div>
+          <div class="dev-option">
+            <label for="show-device-icon">Show Device Icon</label>
+            <input
+              type="checkbox"
+              id="show-device-icon"
+              @input=${(e: Event): void => {
+        this.showDeviceIcon = (e.target as HTMLInputElement).checked;
+      }}
             />
           </div>
           <div class="dev-option">
@@ -187,11 +220,19 @@ export class AppRoot extends LitElement {
           </div>
         </fieldset>
       </div>
+
+      ${this.showDeviceIcon
+        ? html`
+            <div>
+              <responsive-device .device=${this.device}></responsive-device>
+            </div>
+          `
+        : nothing}
     `;
   }
 
   static get styles(): CSSResult {
-    const constrainedWidth = css`var(--responsive-nav-constrained-width, 60rem)`;
+    const constrainedWidth = css`var(--responsive-nav-constrained-width, 250rem)`;
 
     return css`
       header {
@@ -199,12 +240,30 @@ export class AppRoot extends LitElement {
         margin-bottom: 2rem;
       }
 
-      responsive-nav {
+      .constrained-size-marker {
         margin: auto;
+        width: ${constrainedWidth};
+        position: fixed;
+        left: 50%;
+        transform: translate(-50%);
+        height: 100%;
+        outline: 1px solid purple;
+        z-index: -1;
       }
 
-      responsive-nav.constrain {
+      .constrained-size-marker.hidden {
+        display: none;
+      }
+
+      responsive-nav {
+        margin: auto;
         max-width: ${constrainedWidth};
+      }
+
+      responsive-device {
+        width: 10rem;
+        height: 10rem;
+        margin: auto;
       }
 
       .restricted-icon {

@@ -98,7 +98,6 @@ describe('Shared Resize Observer', () => {
     let handleResizeCallCount = 0;
     class MockHandler implements SharedResizeObserverResizeHandlerInterface {
       handleResize(entry: ResizeObserverEntry): void {
-        console.log('removeHandler resize', entry.contentRect);
         handleResizeCallCount++;
       }
     }
@@ -131,7 +130,6 @@ describe('Shared Resize Observer', () => {
     let handleResizeCallCount = 0;
     class MockHandler implements SharedResizeObserverResizeHandlerInterface {
       handleResize(entry: ResizeObserverEntry): void {
-        console.debug('handleResize', entry.contentRect, handleResizeCallCount);
         handleResizeCallCount++;
       }
     }

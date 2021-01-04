@@ -95,9 +95,6 @@ export class ResponsiveNav
       this.mainMenu.estimateIconOnlyWidth +
       this.rightMenu.estimateIconOnlyWidth;
 
-    console.debug('rightMenuSize', this.rightMenu.estimateFullWidth);
-    console.debug('leftMenuSize', this.mainMenu.estimateFullWidth);
-
     if (availableWidth < iconOnlyWidth) {
       this.leftMenuMode = ResponsiveNavLeftMenuMode.Hamburger;
       this.leftMenuDisplayMode = ResponsiveNavMenuMode.IconOnly;

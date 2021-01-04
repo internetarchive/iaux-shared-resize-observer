@@ -18,25 +18,13 @@ import {
 import './responsive-device';
 import { Device } from './responsive-device';
 import { nothing } from 'lit-html';
+import './dev/dev-checkbox';
+import './dev/dev-slider';
 
 @customElement('app-root')
 export class AppRoot
   extends LitElement
   implements SharedResizeObserverResizeHandlerInterface {
-  @query('#show-borders-check') showBordersCheck!: HTMLInputElement;
-  @query('#show-extra-nav') showNavCheck!: HTMLInputElement;
-  @query('#constrained-width-check') constrainedWidthCheck!: HTMLInputElement;
-  @query('#constrained-width-slider') constrainedWidthSlider!: HTMLInputElement;
-  @query('#constrained-width-value') constrainedWidthValue!: HTMLSpanElement;
-  @query('#item-spacing-slider') itemSpacingSlider!: HTMLInputElement;
-  @query('#item-spacing-value') itemSpacingValue!: HTMLSpanElement;
-  @query('#font-size-slider') fontSizeSlider!: HTMLInputElement;
-  @query('#font-size-value') fontSizeValue!: HTMLSpanElement;
-  @query('#icon-size-slider') iconSizeSlider!: HTMLInputElement;
-  @query('#icon-size-value') iconSizeValue!: HTMLSpanElement;
-  @query('#menu-gap-slider') menuGapSlider!: HTMLInputElement;
-  @query('#menu-gap-value') menuGapValue!: HTMLSpanElement;
-
   @query('responsive-nav') nav!: ResponsiveNav;
 
   @internalProperty()
@@ -49,46 +37,6 @@ export class AppRoot
   private showDeviceIcon = false;
 
   private resizeObserver: SharedResizeObserverInterface = new SharedResizeObserver();
-
-  private changeFontSize(): void {
-    const fontSize = `${this.fontSizeSlider.value}rem`;
-    this.style.setProperty('--responsive-nav-font-size', fontSize);
-    this.fontSizeValue.innerHTML = `${this.fontSizeSlider.value}rem`;
-  }
-
-  private changeIconSize(): void {
-    const fontSize = `${this.iconSizeSlider.value}rem`;
-    this.style.setProperty('--responsive-nav-icon-size', fontSize);
-    this.iconSizeValue.innerHTML = `${this.iconSizeSlider.value}rem`;
-  }
-
-  private changeItemSpacing(): void {
-    const itemSpacing = `${this.itemSpacingSlider.value}px`;
-    this.nav.navItemSpacing = parseFloat(this.itemSpacingSlider.value);
-    this.itemSpacingValue.innerHTML = itemSpacing;
-  }
-
-  private changeMenuGap(): void {
-    this.nav.menuGap = parseFloat(this.menuGapSlider.value);
-    this.menuGapValue.innerHTML = `${this.menuGapSlider.value}px`;
-  }
-
-  private toggleNavOutlines(): void {
-    this.showDevOutline = this.showBordersCheck.checked;
-  }
-
-  private toggleExtraNavVisibility(): void {
-    this.nav.showHiddenItems = this.showNavCheck.checked;
-  }
-
-  private changeConstrainedSize(): void {
-    const constrainedWidth = `${this.constrainedWidthSlider.value}rem`;
-    this.style.setProperty(
-      '--responsive-nav-constrained-width',
-      constrainedWidth
-    );
-    this.constrainedWidthValue.innerHTML = constrainedWidth;
-  }
 
   handleResize(entry: ResizeObserverEntry): void {
     const width = entry.contentRect.width;
@@ -128,95 +76,99 @@ export class AppRoot
         <fieldset>
           <legend>Dev Tools</legend>
           <div class="dev-option">
-            <label for="constrained-width-slider">Constrained Size</label>
-            <input
-              type="range"
+            <dev-slider
+              label="Max Width"
               min="30"
               max="250"
               step="0.1"
               value="250"
-              id="constrained-width-slider"
-              @input=${this.changeConstrainedSize}
-            />
-            <span id="constrained-width-value">250rem</span>
-          </div>
-          <div class="dev-option">
-            <label for="show-borders-check">Show Borders</label>
-            <input
-              type="checkbox"
-              id="show-borders-check"
-              @input=${this.toggleNavOutlines}
-            />
-          </div>
-          <div class="dev-option">
-            <label for="show-extra-nav">Show Extra Nav</label>
-            <input
-              type="checkbox"
-              id="show-extra-nav"
-              @input=${this.toggleExtraNavVisibility}
-            />
-          </div>
-          <div class="dev-option">
-            <label for="show-device-icon">Show Device Icon</label>
-            <input
-              type="checkbox"
-              id="show-device-icon"
-              @input=${(e: Event): void => {
-        this.showDeviceIcon = (e.target as HTMLInputElement).checked;
+              unit="rem"
+              @valueChanged=${(e: CustomEvent): void => {
+        const constrainedWidth = `${e.detail.value}rem`;
+        this.style.setProperty(
+          '--responsive-nav-constrained-width',
+          constrainedWidth
+        );
       }}
-            />
+            ></dev-slider>
           </div>
           <div class="dev-option">
-            <label for="item-spacing-slider">Item Spacing</label>
-            <input
-              type="range"
+            <dev-checkbox
+              label="Show Borders"
+              @valueChanged=${(e: CustomEvent): void => {
+        this.showDevOutline = e.detail.checked;
+      }}
+            ></dev-checkbox>
+          </div>
+          <div class="dev-option">
+            <dev-checkbox
+              label="Show Donate Nav"
+              @valueChanged=${(e: CustomEvent): void => {
+        this.nav.showHiddenItems = e.detail.checked;
+              }}
+            ></dev-checkbox>
+          </div>
+          <div class="dev-option">
+            <dev-slider
+              label="Item Spacing"
               min="1"
               max="30"
               step="1"
               value="10"
-              id="item-spacing-slider"
-              @input=${this.changeItemSpacing}
-            />
-            <span id="item-spacing-value">10px</span>
+              unit="px"
+              @valueChanged=${(e: CustomEvent): void => {
+        this.nav.navItemSpacing = e.detail.value;
+      }}
+            ></dev-slider>
           </div>
           <div class="dev-option">
-            <label for="font-size-slider">Font Size</label>
-            <input
-              type="range"
+            <dev-slider
+              label="Font Size"
               min="1"
               max="2"
               step="0.1"
               value="1.4"
-              id="font-size-slider"
-              @input=${this.changeFontSize}
-            />
-            <span id="font-size-value">1.4rem</span>
+              unit="rem"
+              @valueChanged=${(e: CustomEvent): void => {
+        const fontSize = `${e.detail.value}rem`;
+        this.style.setProperty('--responsive-nav-font-size', fontSize);
+      }}
+            ></dev-slider>
           </div>
           <div class="dev-option">
-            <label for="icon-size-slider">Icon Size</label>
-            <input
-              type="range"
+            <dev-slider
+              label="Icon Size"
               min="2"
               max="5"
               step="0.1"
               value="3"
-              id="icon-size-slider"
-              @input=${this.changeIconSize}
-            />
-            <span id="icon-size-value">3rem</span>
+              unit="rem"
+              @valueChanged=${(e: CustomEvent): void => {
+        const fontSize = `${e.detail.value}rem`;
+        this.style.setProperty('--responsive-nav-icon-size', fontSize);
+      }}
+            ></dev-slider>
           </div>
           <div class="dev-option">
-            <label for="menu-gap-slider">Menu Gap</label>
-            <input
-              type="range"
+            <dev-slider
+              label="Menu Gap"
               min="20"
               max="200"
               step="1"
               value="40"
-              id="menu-gap-slider"
-              @input=${this.changeMenuGap}
-            />
-            <span id="menu-gap-value">40px</span>
+              unit="px"
+              @valueChanged=${(e: CustomEvent): void => {
+        this.nav.menuGap = e.detail.value;
+      }}
+            ></dev-slider>
+          </div>
+          <div class="dev-option">
+            <dev-checkbox
+              label="Show Device Icon"
+              @valueChanged=${(e: CustomEvent): void => {
+        this.showDeviceIcon = e.detail.checked;
+      }}
+            ></dev-checkbox>
           </div>
         </fieldset>
       </div>
@@ -286,19 +238,6 @@ export class AppRoot
       .dev fieldset legend {
         background-color: #ccc;
         border: 1px solid #333;
-      }
-
-      .dev label {
-        display: inline-block;
-        width: 15rem;
-      }
-
-      .dev .dev-option {
-        margin-bottom: 0.5rem;
-      }
-
-      .dev .dev-option:last-child {
-        margin-bottom: 0;
       }
 
       .description {

@@ -7,8 +7,7 @@ install:
   - npm install -g codecov
 
 script:
-  - ./scripts/bootstrap.sh
-  - ./scripts/test.sh
+  - npm run test
 
 after_script:
   - codecov

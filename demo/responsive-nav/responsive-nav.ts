@@ -292,13 +292,13 @@ export class ResponsiveNav
       .left-menu.full #hamburger-menu {
         position: absolute;
         left: -10000px;
-        display: hidden;
+        visibility: hidden;
       }
 
       .left-menu.hamburger #main-menu {
         position: absolute;
         left: -10000px;
-        display: hidden;
+        visibility: hidden;
       }
 
       .right {

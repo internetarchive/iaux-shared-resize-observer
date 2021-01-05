@@ -13,7 +13,7 @@ import { ResponsiveNav } from './responsive-nav/responsive-nav';
 import {
   SharedResizeObserver,
   SharedResizeObserverInterface,
-  SharedResizeObserverResizeHandler,
+  SharedResizeObserverResizeHandlerInterface,
 } from '../src/shared-resize-observer';
 import './responsive-device';
 import { Device } from './responsive-device';
@@ -23,7 +23,7 @@ import './dev/dev-slider';
 @customElement('app-root')
 export class AppRoot
   extends LitElement
-  implements SharedResizeObserverResizeHandler {
+  implements SharedResizeObserverResizeHandlerInterface {
   @query('responsive-nav') nav!: ResponsiveNav;
 
   @internalProperty()
@@ -86,27 +86,27 @@ export class AppRoot
               value="1600"
               unit="px"
               @valueChanged=${(e: CustomEvent): void => {
-      const constrainedWidth = `${e.detail.value}px`;
-        this.style.setProperty(
-          '--responsive-nav-constrained-width',
-          constrainedWidth
-        );
-      }}
+                const constrainedWidth = `${e.detail.value}px`;
+                this.style.setProperty(
+                  '--responsive-nav-constrained-width',
+                  constrainedWidth
+                );
+              }}
             ></dev-slider>
           </div>
           <div class="dev-option">
             <dev-checkbox
               label="Show Borders"
               @valueChanged=${(e: CustomEvent): void => {
-        this.showDevOutline = e.detail.checked;
-      }}
+                this.showDevOutline = e.detail.checked;
+              }}
             ></dev-checkbox>
           </div>
           <div class="dev-option">
             <dev-checkbox
               label="Show Donate Nav"
               @valueChanged=${(e: CustomEvent): void => {
-        this.nav.showHiddenItems = e.detail.checked;
+                this.nav.showHiddenItems = e.detail.checked;
               }}
             ></dev-checkbox>
           </div>
@@ -119,8 +119,8 @@ export class AppRoot
               value="10"
               unit="px"
               @valueChanged=${(e: CustomEvent): void => {
-        this.nav.navItemSpacing = e.detail.value;
-      }}
+                this.nav.navItemSpacing = e.detail.value;
+              }}
             ></dev-slider>
           </div>
           <div class="dev-option">
@@ -132,9 +132,9 @@ export class AppRoot
               value="1.4"
               unit="rem"
               @valueChanged=${(e: CustomEvent): void => {
-        const fontSize = `${e.detail.value}rem`;
-        this.style.setProperty('--responsive-nav-font-size', fontSize);
-      }}
+                const fontSize = `${e.detail.value}rem`;
+                this.style.setProperty('--responsive-nav-font-size', fontSize);
+              }}
             ></dev-slider>
           </div>
           <div class="dev-option">
@@ -146,9 +146,9 @@ export class AppRoot
               value="3"
               unit="rem"
               @valueChanged=${(e: CustomEvent): void => {
-        const fontSize = `${e.detail.value}rem`;
-        this.style.setProperty('--responsive-nav-icon-size', fontSize);
-      }}
+                const fontSize = `${e.detail.value}rem`;
+                this.style.setProperty('--responsive-nav-icon-size', fontSize);
+              }}
             ></dev-slider>
           </div>
           <div class="dev-option">
@@ -160,8 +160,8 @@ export class AppRoot
               value="40"
               unit="px"
               @valueChanged=${(e: CustomEvent): void => {
-        this.nav.menuGap = e.detail.value;
-      }}
+                this.nav.menuGap = e.detail.value;
+              }}
             ></dev-slider>
           </div>
         </fieldset>

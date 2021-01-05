@@ -29,7 +29,7 @@ import './nav-item';
 import './nav-menu';
 import {
   SharedResizeObserverInterface,
-  SharedResizeObserverResizeHandler,
+  SharedResizeObserverResizeHandlerInterface,
 } from '../../index';
 import { nothing } from 'lit-html';
 import { ResponsiveNavMenuOption } from './models/menu-option';
@@ -45,7 +45,7 @@ export enum ResponsiveNavLeftMenuMode {
 @customElement('responsive-nav')
 export class ResponsiveNav
   extends LitElement
-  implements SharedResizeObserverResizeHandler {
+  implements SharedResizeObserverResizeHandlerInterface {
   @property({ type: Number }) menuGap = 40;
 
   @property({ type: Boolean }) showHiddenItems = false;

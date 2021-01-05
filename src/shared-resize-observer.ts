@@ -1,7 +1,7 @@
 /**
  * An interface for objects to handle resize events for a target
  */
-export interface SharedResizeObserverResizeHandler {
+export interface SharedResizeObserverResizeHandlerInterface {
   handleResize(entry: ResizeObserverEntry): void;
 }
 
@@ -12,7 +12,7 @@ export interface SharedResizeObserverInterface {
    * @param options
    */
   addObserver(options: {
-    handler: SharedResizeObserverResizeHandler;
+    handler: SharedResizeObserverResizeHandlerInterface;
     target: Element;
     options?: ResizeObserverOptions | undefined;
   }): void;
@@ -23,7 +23,7 @@ export interface SharedResizeObserverInterface {
    * @param options
    */
   removeObserver(options: {
-    handler: SharedResizeObserverResizeHandler;
+    handler: SharedResizeObserverResizeHandlerInterface;
     target: Element;
   }): void;
 }
@@ -40,7 +40,7 @@ export interface SharedResizeObserverInterface {
 export class SharedResizeObserver implements SharedResizeObserverInterface {
   /** @inheritdoc */
   addObserver(options: {
-    handler: SharedResizeObserverResizeHandler;
+    handler: SharedResizeObserverResizeHandlerInterface;
     target: Element;
     options?: ResizeObserverOptions | undefined;
   }): void {
@@ -53,7 +53,7 @@ export class SharedResizeObserver implements SharedResizeObserverInterface {
 
   /** @inheritdoc */
   removeObserver(options: {
-    handler: SharedResizeObserverResizeHandler;
+    handler: SharedResizeObserverResizeHandlerInterface;
     target: Element;
   }): void {
     const handlers = this.resizeHandlers.get(options.target);
@@ -73,13 +73,13 @@ export class SharedResizeObserver implements SharedResizeObserverInterface {
    * @private
    * @type {Map<
    *     Element,
-   *     Set<SharedResizeObserverResizeHandler>
+   *     Set<SharedResizeObserverResizeHandlerInterface>
    *   >}
    * @memberof SharedResizeObserver
    */
   private resizeHandlers: Map<
     Element,
-    Set<SharedResizeObserverResizeHandler>
+    Set<SharedResizeObserverResizeHandlerInterface>
   > = new Map();
 
   constructor() {

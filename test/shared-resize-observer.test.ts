@@ -1,7 +1,7 @@
 import { expect } from '@open-wc/testing';
 import {
   SharedResizeObserver,
-  SharedResizeObserverResizeHandler,
+  SharedResizeObserverResizeHandlerInterface,
 } from '../src/shared-resize-observer';
 import { promisedSleep } from './promised-sleep';
 
@@ -30,7 +30,7 @@ describe('Shared Resize Observer', () => {
     let width = -1;
     let right = -1;
 
-    class MockHandler implements SharedResizeObserverResizeHandler {
+    class MockHandler implements SharedResizeObserverResizeHandlerInterface {
       handleResize(entry: ResizeObserverEntry): void {
         x = entry.contentRect.x;
         y = entry.contentRect.y;
@@ -61,13 +61,13 @@ describe('Shared Resize Observer', () => {
     let handler1ResizeCalled = false;
     let handler2ResizeCalled = false;
 
-    class MockHandler1 implements SharedResizeObserverResizeHandler {
+    class MockHandler1 implements SharedResizeObserverResizeHandlerInterface {
       handleResize(entry: ResizeObserverEntry): void {
         handler1ResizeCalled = true;
       }
     }
 
-    class MockHandler2 implements SharedResizeObserverResizeHandler {
+    class MockHandler2 implements SharedResizeObserverResizeHandlerInterface {
       handleResize(entry: ResizeObserverEntry): void {
         handler2ResizeCalled = true;
       }
@@ -96,7 +96,7 @@ describe('Shared Resize Observer', () => {
 
   it('can remove a handler', async () => {
     let handleResizeCallCount = 0;
-    class MockHandler implements SharedResizeObserverResizeHandler {
+    class MockHandler implements SharedResizeObserverResizeHandlerInterface {
       handleResize(entry: ResizeObserverEntry): void {
         handleResizeCallCount++;
       }
@@ -128,7 +128,7 @@ describe('Shared Resize Observer', () => {
 
   it('prevents adding a handler twice', async () => {
     let handleResizeCallCount = 0;
-    class MockHandler implements SharedResizeObserverResizeHandler {
+    class MockHandler implements SharedResizeObserverResizeHandlerInterface {
       handleResize(entry: ResizeObserverEntry): void {
         handleResizeCallCount++;
       }

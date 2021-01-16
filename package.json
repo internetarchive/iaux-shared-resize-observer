@@ -1,7 +1,7 @@
 {
   "name": "@internetarchive/shared-resize-observer",
   "version": "0.0.0",
-  "description": "Webcomponent shared-resize-observer following open-wc recommendations",
+  "description": "A shared ResizeObserver to allow for efficient viewport resize observations",
   "license": "AGPL-3.0-only",
   "main": "dist/index.js",
   "module": "dist/index.js",
@@ -12,6 +12,7 @@
   "scripts": {
     "start": "tsc && concurrently -k -r \"tsc --watch --preserveWatchOutput\" \"wds\"",
     "build": "tsc",
+    "docs": "typedoc index.ts",
     "prepublish": "tsc",
     "lint": "eslint --ext .ts,.html . --ignore-path .gitignore && prettier \"**/*.ts\" --check --ignore-path .gitignore",
     "format": "eslint --ext .ts,.html . --fix --ignore-path .gitignore && prettier \"**/*.ts\" --write --ignore-path .gitignore",
@@ -47,6 +48,7 @@
     "lit-html": "^1.3.0",
     "prettier": "^2.0.4",
     "tslib": "^2.0.3",
+    "typedoc": "^0.20.15",
     "typescript": "^4.1.3"
   },
   "eslintConfig": {

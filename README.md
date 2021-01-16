@@ -1,15 +1,8 @@
 # SharedResizeObserver
 
-The `SharedResizeObserver` is an thin layer over the `ResizeObserver` to allow for WebComponents and other observers to use a single `ResizeObserver` to provide a performant user interface.
+The `SharedResizeObserver` is an thin layer over the `ResizeObserver` to allow for WebComponents and other observers to use a single `ResizeObserver` to provide performant resize observation.
 
-## Background
-
-With the addition of the `ResizeObserver` in the web development toolchain, Web Components and other containers can now observe their own viewports and resize accordingly.
-
-This is very powerful, but if each Web Component creates its own `ResizeObserver`, you take a big performance hit, as noted in this look into [ResizeObserver performance](https://groups.google.com/a/chromium.org/g/blink-dev/c/z6ienONUb5A/m/F5-VcUZtBAAJ).
-
-Using the `SharedResizeObserver` allows components to take advantage of `ResizeObservers` while still maintaining a smooth and responsive user interface.
-
+It's more efficient to run a single `ResizeObserver` with many observations than many `ResizeObservers`, as noted in [this performance comparison](https://groups.google.com/a/chromium.org/g/blink-dev/c/z6ienONUb5A/m/F5-VcUZtBAAJ). A singleton of the `SharedResizeObserver` can be shared with any element that needs resize observation. Consumers register themselves with `resizeObserver.addObserver({ handler, target })` and get a `handleResize(entry: ResizeObserverEntry)` callback when the target changes. See `Usage` section below for an example.
 
 ## Installation
 ```bash
@@ -96,7 +89,7 @@ class AppRoot extends LitElement implements SharedResizeObserverResizeHandlerInt
 }
 ```
 
-Run `npm run start` for a full example and look in the `demo` directory for the sample code.
+Run `npm run start` for a full example and look in the `demo` directory for the sample code. See the docs in the `docs` directory.
 
 ## Linting with ESLint, Prettier, and Types
 To scan the project for linting errors, run

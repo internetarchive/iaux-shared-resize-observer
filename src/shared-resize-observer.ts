@@ -5,6 +5,15 @@ export interface SharedResizeObserverResizeHandlerInterface {
   handleResize(entry: ResizeObserverEntry): void;
 }
 
+/**
+ * The SharedResizeObserver provides a ResizeObserver that can be
+ * shared amongst many elements and handlers.
+ *
+ * It's more efficient to run a single ResizeObserver with many
+ * observations than many ResizeObservers. A singleton of
+ * the SharedResizeObserver can be passed down through any element
+ * that needs resize observation and get a `handleResize()` callback
+ */
 export interface SharedResizeObserverInterface {
   /**
    * Add an observer to the ResizeObserver
@@ -28,15 +37,7 @@ export interface SharedResizeObserverInterface {
   }): void;
 }
 
-/**
- * The SharedResizeObserver provides a ResizeObserver that can be
- * shared amongst many elements and handlers.
- *
- * It's more efficient to run a single ResizeObserver with many
- * observations than many ResizeObservers. A singleton of
- * the SharedResizeObserver can be passed down through any element
- * that needs resize observation and get a `handleResize()` callback
- */
+/** @inheritdoc */
 export class SharedResizeObserver implements SharedResizeObserverInterface {
   /** @inheritdoc */
   addObserver(options: {
@@ -84,8 +85,9 @@ export class SharedResizeObserver implements SharedResizeObserverInterface {
 
   constructor() {
     this.resizeObserver = new ResizeObserver(entries => {
-      // This requestAnimationFrame is to slow down the refresh rate, otherwise you get a bunch
-      // of `ResizeObserver loop completed with undelivered notifications` errors
+      // This requestAnimationFrame is to throttle the refresh rate,
+      // otherwise you get a bunch of
+      // `ResizeObserver loop completed with undelivered notifications` errors
       // The errors are not harmful, but they happen a lot, see:
       // https://stackoverflow.com/a/58701523
       // https://github.com/souporserious/react-measure/issues/104

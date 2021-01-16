@@ -6,7 +6,7 @@ The `SharedResizeObserver` is an thin layer over the `ResizeObserver` to allow f
 
 With the addition of the `ResizeObserver` in the web development toolchain, Web Components and other containers can now observe their own viewports and resize accordingly.
 
-This is very powerful, but if each Web Component creates its own `ResizeObserver`, you take a big performance hit, as noted in this [ResizeObserver performance investigation](https://groups.google.com/a/chromium.org/g/blink-dev/c/z6ienONUb5A/m/F5-VcUZtBAAJ).
+This is very powerful, but if each Web Component creates its own `ResizeObserver`, you take a big performance hit, as noted in this look into [ResizeObserver performance](https://groups.google.com/a/chromium.org/g/blink-dev/c/z6ienONUb5A/m/F5-VcUZtBAAJ).
 
 Using the `SharedResizeObserver` allows components to take advantage of `ResizeObservers` while still maintaining a smooth and responsive user interface.
 

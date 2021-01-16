@@ -11,3 +11,9 @@ script:
 
 after_script:
   - codecov
+
+notifications:
+  slack:
+    secure: p+quanSnMcCgtmXT6eMq50HzUZrJ8xokEiVURrH3VoHVcte6lItIpd3UQ0OLVbql+A3vl7h0iLprelzCwuaIpNa015tMTCBbL7/vi8enkNcpQ3uMwuWKt1KKU4AaX2gyhzVScXy4VDz49dC4jFUIciHEIKJxeK6on00vgJOFJt7Es+2U77sWa9PWLiQ1l9AV/6oU+rxROOr0htsf53tgGTSXRMwQQGpHFjkdqM8YsKCyia4KJXa4dQp+bUeXyDp0LA8GXH6xXCnovRYJK9cd7s/xYFbOmFzhFJpDMzsJ4Z7KLow9GqVuy3iguxsFAmHLjgNoMFtt/UO1g2IWsNVpByxyn7im/Jvj2ZvwZrV9KsDE/hblKi9gsRaRAa83QLjhF0mtx/mNGkFFNDoLkRaG5KIaprKhu2CwUzmliCeNkMXM4flUB/+YP+H+0WnLJqcMUhN1dv4vCJc8vssSbi+pvfL1QCTT6iubx6Vh1pPSfVdp+3cA3tnE+CgVmKZuy2HFx9a3nEh2Oe4WmnWPWZK7Tw3moK9wxI3dUGm9mfsIbdWxIGAZKH5qGGY/ObE1wJ1b37V7yg8wdYvjYo3I5v3Xq7uJLv5W8Mwy83ySQa2MvHixiv+Yq5DAdWwhibuqBq6WsrdRh0g79aNz+7TIAzvL0Lg6CVlTkPrEd6Ge+oXi/qI=
+    exclude:
+    if: (fork = true)

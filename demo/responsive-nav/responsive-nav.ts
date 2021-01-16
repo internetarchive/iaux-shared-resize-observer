@@ -4,8 +4,6 @@ import {
   LitElement,
   TemplateResult,
   CSSResult,
-  internalProperty,
-  queryAll,
   property,
   customElement,
   PropertyValues,
@@ -27,7 +25,7 @@ import hamburgerIcon from '../icons/hamburger';
 
 import './nav-item';
 import './nav-menu';
-import {
+import type {
   SharedResizeObserverInterface,
   SharedResizeObserverResizeHandlerInterface,
 } from '../../index';
@@ -35,7 +33,6 @@ import { nothing } from 'lit-html';
 import { ResponsiveNavMenuOption } from './models/menu-option';
 import { ResponsiveNavMenuMode } from './models/menu-mode';
 import { ResponsiveNavMenu } from './nav-menu';
-import icon from '@internetarchive/icon-ia-logo';
 
 export enum ResponsiveNavLeftMenuMode {
   Full = 'full',

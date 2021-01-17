@@ -18,7 +18,7 @@ import type {
 } from '@internetarchive/shared-resize-observer';
 
 @customElement('app-root')
-class AppRoot extends LitElement {
+export class AppRoot extends LitElement {
   private resizeObserver: SharedResizeObserverInterface = new SharedResizeObserver();
 
   render() {
@@ -35,7 +35,8 @@ class AppRoot extends LitElement {
 }
 
 @customElement('some-responsive-component')
-class AppRoot extends LitElement implements SharedResizeObserverResizeHandlerInterface {
+export class SomeResponsiveComponent extends LitElement
+  implements SharedResizeObserverResizeHandlerInterface {
   @property({ type: Object })
   resizeObserver?: SharedResizeObserverInterface;
 

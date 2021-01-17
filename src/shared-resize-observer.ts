@@ -46,7 +46,6 @@ export class SharedResizeObserver implements SharedResizeObserverInterface {
     options?: ResizeObserverOptions | undefined;
   }): void {
     const handlers = this.resizeHandlers.get(options.target) ?? new Set();
-    if (!handlers) return;
     handlers.add(options.handler);
     this.resizeHandlers.set(options.target, handlers);
     this.resizeObserver.observe(options.target, options.options);

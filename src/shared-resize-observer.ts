@@ -66,7 +66,30 @@ export class SharedResizeObserver implements SharedResizeObserverInterface {
     }
   }
 
-  private resizeObserver: ResizeObserver;
+  /**
+   * This is the ResizeObserver that dispatches
+   * callbacks to all of the handlers.
+   *
+   * @private
+   * @memberof SharedResizeObserver
+   */
+  private resizeObserver = new ResizeObserver(entries => {
+    // This requestAnimationFrame is to throttle the refresh rate,
+    // otherwise you get a bunch of
+    // `ResizeObserver loop completed with undelivered notifications` errors
+    // The errors are not harmful, but they happen a lot, see:
+    // https://stackoverflow.com/a/58701523
+    // https://github.com/souporserious/react-measure/issues/104
+    // https://github.com/WICG/resize-observer/issues/38
+    window.requestAnimationFrame(() => {
+      for (const entry of entries) {
+        const handlers = this.resizeHandlers.get(entry.target);
+        handlers?.forEach(handler => {
+          handler.handleResize(entry);
+        });
+      }
+    });
+  });
 
   /**
    * A map of all of the observed elements and their resize handlers
@@ -82,24 +105,4 @@ export class SharedResizeObserver implements SharedResizeObserverInterface {
     Element,
     Set<SharedResizeObserverResizeHandlerInterface>
   > = new Map();
-
-  constructor() {
-    this.resizeObserver = new ResizeObserver(entries => {
-      // This requestAnimationFrame is to throttle the refresh rate,
-      // otherwise you get a bunch of
-      // `ResizeObserver loop completed with undelivered notifications` errors
-      // The errors are not harmful, but they happen a lot, see:
-      // https://stackoverflow.com/a/58701523
-      // https://github.com/souporserious/react-measure/issues/104
-      // https://github.com/WICG/resize-observer/issues/38
-      window.requestAnimationFrame(() => {
-        for (const entry of entries) {
-          const handlers = this.resizeHandlers.get(entry.target);
-          handlers?.forEach(handler => {
-            handler.handleResize(entry);
-          });
-        }
-      });
-    });
-  }
 }

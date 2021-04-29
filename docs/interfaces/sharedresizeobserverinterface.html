@@ -117,20 +117,25 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/internetarchive/iaux-shared-resize-observer/blob/54a988a/src/shared-resize-observer.ts#L23">shared-resize-observer.ts:23</a></li>
+									<li>Defined in <a href="https://github.com/internetarchive/iaux-shared-resize-observer/blob/d6ba294/src/shared-resize-observer.ts#L35">shared-resize-observer.ts:35</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Add an observer to the ResizeObserver</p>
+									<p>Add an observer to the ResizeObserver.</p>
 								</div>
+								<p>Note that this prevents double-observing so the same handler can be added
+								to the same element multiple times and you will only get a single callback.</p>
+								<dl class="tsd-comment-tags">
+									<dt>memberof</dt>
+									<dd><p>SharedResizeObserverInterface</p>
+									</dd>
+								</dl>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>options: <span class="tsd-signature-symbol">{ </span>handler<span class="tsd-signature-symbol">: </span><a href="sharedresizeobserverresizehandlerinterface.html" class="tsd-signature-type" data-tsd-kind="Interface">SharedResizeObserverResizeHandlerInterface</a><span class="tsd-signature-symbol">; </span>options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">ResizeObserverOptions</span><span class="tsd-signature-symbol">; </span>target<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Element</span><span class="tsd-signature-symbol"> }</span></h5>
-									<div class="tsd-comment tsd-typography">
-									</div>
 									<ul class="tsd-parameters">
 										<li class="tsd-parameter">
 											<h5>handler<span class="tsd-signature-symbol">: </span><a href="sharedresizeobserverresizehandlerinterface.html" class="tsd-signature-type" data-tsd-kind="Interface">SharedResizeObserverResizeHandlerInterface</a></h5>
@@ -158,20 +163,23 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/internetarchive/iaux-shared-resize-observer/blob/54a988a/src/shared-resize-observer.ts#L34">shared-resize-observer.ts:34</a></li>
+									<li>Defined in <a href="https://github.com/internetarchive/iaux-shared-resize-observer/blob/d6ba294/src/shared-resize-observer.ts#L50">shared-resize-observer.ts:50</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Remove an observer from the ResizeObserver</p>
 								</div>
+								<dl class="tsd-comment-tags">
+									<dt>memberof</dt>
+									<dd><p>SharedResizeObserverInterface</p>
+									</dd>
+								</dl>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>options: <span class="tsd-signature-symbol">{ </span>handler<span class="tsd-signature-symbol">: </span><a href="sharedresizeobserverresizehandlerinterface.html" class="tsd-signature-type" data-tsd-kind="Interface">SharedResizeObserverResizeHandlerInterface</a><span class="tsd-signature-symbol">; </span>target<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Element</span><span class="tsd-signature-symbol"> }</span></h5>
-									<div class="tsd-comment tsd-typography">
-									</div>
 									<ul class="tsd-parameters">
 										<li class="tsd-parameter">
 											<h5>handler<span class="tsd-signature-symbol">: </span><a href="sharedresizeobserverresizehandlerinterface.html" class="tsd-signature-type" data-tsd-kind="Interface">SharedResizeObserverResizeHandlerInterface</a></h5>

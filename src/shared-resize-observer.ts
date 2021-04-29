@@ -20,9 +20,17 @@ export interface SharedResizeObserverResizeHandlerInterface {
  */
 export interface SharedResizeObserverInterface {
   /**
-   * Add an observer to the ResizeObserver
+   * Add an observer to the ResizeObserver.
    *
-   * @param options
+   * Note that this prevents double-observing so the same handler can be added
+   * to the same element multiple times and you will only get a single callback.
+   *
+   * @param {({
+   *     handler: SharedResizeObserverResizeHandlerInterface;
+   *     target: Element;
+   *     options?: ResizeObserverOptions | undefined;
+   *   })} options
+   * @memberof SharedResizeObserverInterface
    */
   addObserver(options: {
     handler: SharedResizeObserverResizeHandlerInterface;
@@ -33,7 +41,11 @@ export interface SharedResizeObserverInterface {
   /**
    * Remove an observer from the ResizeObserver
    *
-   * @param options
+   * @param {{
+   *     handler: SharedResizeObserverResizeHandlerInterface;
+   *     target: Element;
+   *   }} options
+   * @memberof SharedResizeObserverInterface
    */
   removeObserver(options: {
     handler: SharedResizeObserverResizeHandlerInterface;

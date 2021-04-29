@@ -1,6 +1,6 @@
 # SharedResizeObserver
 
-The `SharedResizeObserver` is an thin layer over the `ResizeObserver` to allow for WebComponents and other observers to use a single `ResizeObserver` to provide performant resize observation.
+The `SharedResizeObserver` is an thin layer over the `ResizeObserver` to allow for WebComponents and other observers to use a single, shared `ResizeObserver` to provide performant resize observation.
 
 It's more efficient to run a single `ResizeObserver` with many observations than many `ResizeObservers`, as noted in [this performance comparison](https://groups.google.com/a/chromium.org/g/blink-dev/c/z6ienONUb5A/m/F5-VcUZtBAAJ). A singleton of the `SharedResizeObserver` can be shared with any element that needs resize observation. Consumers register themselves with `resizeObserver.addObserver({ handler, target })` and get a `handleResize(entry: ResizeObserverEntry)` callback when the target changes. See `Usage` section below for an example.
 

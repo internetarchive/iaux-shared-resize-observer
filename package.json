@@ -1,6 +1,6 @@
 {
   "name": "@internetarchive/shared-resize-observer",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "A shared ResizeObserver to allow for efficient element resize observations",
   "license": "AGPL-3.0-only",
   "main": "dist/index.js",

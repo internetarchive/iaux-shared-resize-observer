@@ -5,6 +5,7 @@ import {
   TemplateResult,
   CSSResult,
   PropertyValues,
+  nothing,
 } from 'lit';
 import { customElement, property, query } from 'lit/decorators.js';
 
@@ -27,7 +28,6 @@ import type {
   SharedResizeObserverInterface,
   SharedResizeObserverResizeHandlerInterface,
 } from '../../index';
-import { nothing } from 'lit-html';
 import { ResponsiveNavMenuOption } from './models/menu-option';
 import { ResponsiveNavMenuMode } from './models/menu-mode';
 import { ResponsiveNavMenu } from './nav-menu';

@@ -1,13 +1,5 @@
-import {
-  css,
-  CSSResult,
-  customElement,
-  html,
-  LitElement,
-  property,
-  query,
-  TemplateResult,
-} from 'lit-element';
+import { css, CSSResult, html, LitElement, TemplateResult } from 'lit';
+import { customElement, property, query } from 'lit/decorators.js';
 
 @customElement('dev-checkbox')
 export class DevCheckbox extends LitElement {

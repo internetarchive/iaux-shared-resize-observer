@@ -4,11 +4,9 @@ import {
   LitElement,
   TemplateResult,
   CSSResult,
-  property,
-  customElement,
   PropertyValues,
-  query,
-} from 'lit-element';
+} from 'lit';
+import { customElement, property, query } from 'lit/decorators.js';
 
 import iaIcon from '@internetarchive/icon-ia-logo';
 import webIcon from '@internetarchive/icon-web';

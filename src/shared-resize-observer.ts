@@ -1,7 +1,3 @@
-import { ResizeObserver as Polyfill } from '@juggle/resize-observer';
-
-const ResizeObserver = window.ResizeObserver || Polyfill;
-
 /**
  * An interface for objects to handle resize events for a target
  */

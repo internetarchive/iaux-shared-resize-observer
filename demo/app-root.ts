@@ -1,13 +1,5 @@
-import {
-  css,
-  CSSResult,
-  customElement,
-  html,
-  internalProperty,
-  LitElement,
-  query,
-  TemplateResult,
-} from 'lit-element';
+import { css, CSSResult, html, LitElement, TemplateResult } from 'lit';
+import { customElement, state, query } from 'lit/decorators.js';
 import './responsive-nav/responsive-nav';
 import { ResponsiveNav } from './responsive-nav/responsive-nav';
 import {
@@ -26,10 +18,10 @@ export class AppRoot
   implements SharedResizeObserverResizeHandlerInterface {
   @query('responsive-nav') nav!: ResponsiveNav;
 
-  @internalProperty()
+  @state()
   private device: Device = Device.macBook;
 
-  @internalProperty()
+  @state()
   private showDevOutline = false;
 
   private resizeObserver: SharedResizeObserverInterface = new SharedResizeObserver();

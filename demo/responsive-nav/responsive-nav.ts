@@ -4,11 +4,10 @@ import {
   LitElement,
   TemplateResult,
   CSSResult,
-  property,
-  customElement,
   PropertyValues,
-  query,
-} from 'lit-element';
+  nothing,
+} from 'lit';
+import { customElement, property, query } from 'lit/decorators.js';
 
 import iaIcon from '@internetarchive/icon-ia-logo';
 import webIcon from '@internetarchive/icon-web';
@@ -29,7 +28,6 @@ import type {
   SharedResizeObserverInterface,
   SharedResizeObserverResizeHandlerInterface,
 } from '../../index';
-import { nothing } from 'lit-html';
 import { ResponsiveNavMenuOption } from './models/menu-option';
 import { ResponsiveNavMenuMode } from './models/menu-mode';
 import { ResponsiveNavMenu } from './nav-menu';

@@ -1,13 +1,5 @@
-import {
-  html,
-  css,
-  LitElement,
-  TemplateResult,
-  CSSResult,
-  property,
-  customElement,
-  query,
-} from 'lit-element';
+import { html, css, LitElement, TemplateResult, CSSResult } from 'lit';
+import { customElement, property, query } from 'lit/decorators.js';
 import { ResponsiveNavMenuMode } from './models/menu-mode';
 
 @customElement('responsive-nav-item')

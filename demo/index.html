@@ -16,18 +16,7 @@
   </style>
 </head>
 <body>
-  <div id="demo"></div>
-
-  <script type="module">
-    import { html, render } from 'lit-html';
-        import '../dist/demo/app-root.js';
-
-    render(
-      html`
-        <app-root></app-root>
-      `,
-      document.querySelector('#demo')
-    );
-  </script>
+  <app-root></app-root>
+  <script src="../dist/demo/app-root.js" type="module"></script>
 </body>
 </html>

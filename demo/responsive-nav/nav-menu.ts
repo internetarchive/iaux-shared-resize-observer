@@ -1,14 +1,12 @@
 import {
   css,
   CSSResult,
-  customElement,
   html,
   LitElement,
-  property,
   PropertyValues,
-  queryAll,
   TemplateResult,
-} from 'lit-element';
+} from 'lit';
+import { customElement, property, queryAll } from 'lit/decorators.js';
 import { ResponsiveNavMenuMode } from './models/menu-mode';
 import { ResponsiveNavMenuOption } from './models/menu-option';
 import { ResponsiveNavItem } from './nav-item';

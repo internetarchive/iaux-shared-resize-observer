@@ -16,9 +16,10 @@
     "rootDir": "./",
     "declaration": true,
     "types": [
-      "resize-observer-browser",
       "mocha"
     ],
   },
-  "include": ["**/*.ts"]
+  "include": [
+    "**/*.ts"
+  ]
 }

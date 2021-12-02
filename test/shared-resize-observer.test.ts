@@ -156,4 +156,32 @@ describe('Shared Resize Observer', () => {
     await promisedSleep(100);
     expect(handleResizeCallCount).to.equal(2);
   });
+
+  it('can be shutdown', async () => {
+    let handleResizeCallCount = 0;
+    class MockHandler implements SharedResizeObserverResizeHandlerInterface {
+      handleResize(entry: ResizeObserverEntry): void {
+        handleResizeCallCount++;
+      }
+    }
+
+    const mockHandler = new MockHandler();
+
+    const resizeObserver = new SharedResizeObserver();
+    resizeObserver.addObserver({
+      handler: mockHandler,
+      target: el,
+    });
+    await promisedSleep(100);
+    expect(handleResizeCallCount).to.equal(1);
+    el.style.width = '50px';
+    await promisedSleep(100);
+    expect(handleResizeCallCount).to.equal(2);
+    resizeObserver.shutdown();
+
+    // verify our observer got disconnected
+    el.style.width = '75px';
+    await promisedSleep(100);
+    expect(handleResizeCallCount).to.equal(2);
+  });
 });

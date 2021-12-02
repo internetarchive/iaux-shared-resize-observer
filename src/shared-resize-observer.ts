@@ -47,10 +47,23 @@ export interface SharedResizeObserverInterface {
     handler: SharedResizeObserverResizeHandlerInterface;
     target: Element;
   }): void;
+
+  /**
+   * Remove all observers from the SharedResizeObserver
+   */
+  shutdown(): void;
 }
 
 /** @inheritdoc */
 export class SharedResizeObserver implements SharedResizeObserverInterface {
+  /** @inheritdoc */
+  shutdown(): void {
+    this.resizeHandlers.forEach((handlers, target) => {
+      this.resizeObserver.unobserve(target);
+    });
+    this.resizeHandlers.clear();
+  }
+
   /** @inheritdoc */
   addObserver(options: {
     handler: SharedResizeObserverResizeHandlerInterface;

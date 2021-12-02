@@ -90,4 +90,8 @@ export class MockSharedResizeObserver implements SharedResizeObserverInterface {
       this.resizeHandlers.delete(options.target);
     }
   }
+
+  shutdown(): void {
+    this.resizeHandlers.clear();
+  }
 }

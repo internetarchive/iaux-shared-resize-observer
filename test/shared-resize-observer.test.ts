@@ -139,7 +139,7 @@ describe('Shared Resize Observer', () => {
       handler: mockHandler,
       target: el,
     });
-    // trigger another handleResize, but this one won't trigger a resize event
+    // trigger another handleResize, there are no listeners so the count will be 0
     el.style.width = '75px';
     await promisedSleep(100);
     expect(handleResizeCallCount).to.equal(0);

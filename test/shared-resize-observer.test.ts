@@ -62,13 +62,13 @@ describe('Shared Resize Observer', () => {
     let handler2ResizeCalled = false;
 
     class MockHandler1 implements SharedResizeObserverResizeHandlerInterface {
-      handleResize(entry: ResizeObserverEntry): void {
+      handleResize(): void {
         handler1ResizeCalled = true;
       }
     }
 
     class MockHandler2 implements SharedResizeObserverResizeHandlerInterface {
-      handleResize(entry: ResizeObserverEntry): void {
+      handleResize(): void {
         handler2ResizeCalled = true;
       }
     }
@@ -97,7 +97,7 @@ describe('Shared Resize Observer', () => {
   it('can remove a handler', async () => {
     let handleResizeCallCount = 0;
     class MockHandler implements SharedResizeObserverResizeHandlerInterface {
-      handleResize(entry: ResizeObserverEntry): void {
+      handleResize(): void {
         handleResizeCallCount++;
       }
     }
@@ -126,10 +126,29 @@ describe('Shared Resize Observer', () => {
     expect(handleResizeCallCount).to.equal(2);
   });
 
+  it('just returns if you try to remove a handler that does not exist', async () => {
+    let handleResizeCallCount = 0;
+    class MockHandler implements SharedResizeObserverResizeHandlerInterface {
+      handleResize(): void {
+        handleResizeCallCount++;
+      }
+    }
+    const mockHandler = new MockHandler();
+    const resizeObserver = new SharedResizeObserver();
+    resizeObserver.removeObserver({
+      handler: mockHandler,
+      target: el,
+    });
+    // trigger another handleResize, there are no listeners so the count will be 0
+    el.style.width = '75px';
+    await promisedSleep(100);
+    expect(handleResizeCallCount).to.equal(0);
+  });
+
   it('prevents adding a handler twice', async () => {
     let handleResizeCallCount = 0;
     class MockHandler implements SharedResizeObserverResizeHandlerInterface {
-      handleResize(entry: ResizeObserverEntry): void {
+      handleResize(): void {
         handleResizeCallCount++;
       }
     }
@@ -160,7 +179,7 @@ describe('Shared Resize Observer', () => {
   it('can be shutdown', async () => {
     let handleResizeCallCount = 0;
     class MockHandler implements SharedResizeObserverResizeHandlerInterface {
-      handleResize(entry: ResizeObserverEntry): void {
+      handleResize(): void {
         handleResizeCallCount++;
       }
     }
@@ -183,5 +202,42 @@ describe('Shared Resize Observer', () => {
     el.style.width = '75px';
     await promisedSleep(100);
     expect(handleResizeCallCount).to.equal(2);
+  });
+
+  it('only unobserves the element once all handlers are removed', async () => {
+    let handleResizeCallCount = 0;
+    class MockHandler implements SharedResizeObserverResizeHandlerInterface {
+      handleResize(): void {
+        handleResizeCallCount++;
+      }
+    }
+
+    const mockHandler = new MockHandler();
+    const mockHandler2 = new MockHandler();
+
+    // add two handlers to the same target
+    const resizeObserver = new SharedResizeObserver();
+    resizeObserver.addObserver({
+      handler: mockHandler,
+      target: el,
+    });
+    resizeObserver.addObserver({
+      handler: mockHandler2,
+      target: el,
+    });
+    await promisedSleep(100);
+    expect(handleResizeCallCount).to.equal(2);
+
+    // remove one handler
+    resizeObserver.removeObserver({
+      handler: mockHandler,
+      target: el,
+    });
+    await promisedSleep(100);
+
+    // trigger a resize and our other handler should still be called
+    el.style.width = '50px';
+    await promisedSleep(100);
+    expect(handleResizeCallCount).to.equal(3);
   });
 });

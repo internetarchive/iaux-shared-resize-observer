@@ -83,9 +83,9 @@ export class SharedResizeObserver implements SharedResizeObserverInterface {
   }): void {
     const handlers = this.resizeHandlers.get(options.target);
     if (!handlers) return;
-    this.resizeObserver.unobserve(options.target);
     handlers.delete(options.handler);
     if (handlers.size === 0) {
+      this.resizeObserver.unobserve(options.target);
       this.resizeHandlers.delete(options.target);
     }
   }
